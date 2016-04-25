@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!-- html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"-->
+<html lang="ja"> 
+<!--<html xmlns="http://www.w3.org/1999/xhtml"> -->
+    <head> 
+        <meta charset=utf-8>
+        <title>どらべる.jp</title>
+        <link rel="stylesheet" href="./css/travel.css" type="text/css">
+        <link rel="shortcut icon" href="./image/light_car.png">
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+        <script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.bxslider.min.js"></script>
+        <script type="text/javascript" src="./js/page_slider.js"></script>   
+        <script type="text/javascript" src="./js/main/jquery.leanModal.min.js"></script>
+        <script type="text/javascript" src="./js/main/innerHTML.js"></script>
+        <script type="text/javascript" src="./js/main/drag_and_drop.js"></script>
+        <script type="text/javascript" src="./js/main/schedule_card.js"></script>
+        <script type="text/javascript" src="./js/main/options.js"></script>
+        <script type="text/javascript" src="./js/main/route.js"></script>
+        <script type="text/javascript" src="./js/main/cost.js"></script>
+        <script type="text/javascript" src="./js/main/marker.js"></script>
+        <script type="text/javascript" src="./js/main/tab.js"></script>
+        <script type="text/javascript" src="./js/main/hotel.js"></script>
+        <script type="text/javascript" src="./js/main/recommend.js"></script>        
+        <script>
+            //Global Variables
+            //Numbers from 1 is distributed into schedule 
+            //Numbers from 1000001 is distributed into schedule card
+            //Marker's id is schedule card's id - 1000000
+            var l=1000001;                              //index of Schedule Card  (1000001 ~)
+            var number_of_days;                         //number of days
+            var map;
+            var geocoder;  //object that access to geocoding service
+            var directionsService;    //object that access to direction service
+            var service;    //object that access to place service
+            var start_marker;                           //marker of departure place
+            var markersArray = [];                      //array for Markers
+            var routesArray = [];                       //array for Routes
+            var ICarray = [];                           //array for ICs
+            var polyArray = [];                         //array for polyline of public transportation
+            var route_infowindow = [];                  //array for infowindow of routes
+            var departureIC = [];                       //IC Arrays
+            var arrivalIC = [];
+            var departurePrefecture = [];               //Prefecture Arrays 
+            var arrivalPrefecture = []; 
+            var index_of_schedule= [];
+
+
+            /*We cannot use php on github*/
+
+            //Data from input page
+            // var plan_name = "<?php echo htmlspecialchars($_POST['plan_name']); ?>";
+            // var members = "<?php echo htmlspecialchars($_POST['members']); ?>";
+            // var departure_place = "<?php echo htmlspecialchars($_POST['departure_place']); ?>";
+            // var departure_address = "<?php echo htmlspecialchars($_POST['departure_address']); ?>";
+            // var departure_time = "<?php echo htmlspecialchars($_POST['departure_time']); ?>";
+            // var end = "<?php echo htmlspecialchars($_POST['end']); ?>";
+            // var end_address = "<?php echo htmlspecialchars($_POST['end_address']); ?>";
+            // var num_of_members = "<?php echo htmlspecialchars($_POST['members']); ?>";
+            // var day_info = "<?php echo htmlspecialchars($_POST['start']); ?>".split("/");
+            // var initialized_address =["<?php echo htmlspecialchars($_POST['destination_address1']); ?>","<?php echo htmlspecialchars($_POST['destination_address2']); ?>","<?php echo htmlspecialchars($_POST['destination_address3']); ?>"];
+            // var initialized_place = ["<?php echo htmlspecialchars($_POST['destination1']); ?>","<?php echo htmlspecialchars($_POST['destination2']); ?>","<?php echo htmlspecialchars($_POST['destination3']); ?>"];
+            // var initialized_span =["<?php echo htmlspecialchars($_POST['span1']); ?>","<?php echo htmlspecialchars($_POST['span2']); ?>","<?php echo htmlspecialchars($_POST['span3']); ?>"];
+            // var initialized_cost =["<?php echo htmlspecialchars($_POST['cost1']); ?>","<?php echo htmlspecialchars($_POST['cost2']); ?>","<?php echo htmlspecialchars($_POST['cost3']); ?>"];
+            // var pre_budget =Number("<?php echo htmlspecialchars($_POST['budget']); ?>");    //former budget 
+            // var start_date = Number(<?php echo htmlspecialchars($_POST['start_date']); ?>);
+            // var end_date = Number(<?php echo htmlspecialchars($_POST['end_date']); ?>);
+            // var car_type = "<?php echo htmlspecialchars($_POST['car_type']); ?>";
+            // var gas_price = <?php echo htmlspecialchars($_POST['gas_price']); ?>;
+            // var gas_efficiency = <?php echo htmlspecialchars($_POST['efficiency']); ?>;
+
+
+            //Decide number of days
+            //same year
+            // if(day_info[0] === end.substring(0,4)){
+            //     number_of_days =end_date -start_date +1;
+            // }
+            // //leap year
+            // else if(Number(day_info[0])%4===0){
+            //     number_of_days =366 - start_date+end_date  +1;
+            // }
+            // //different year
+            // else{
+            //     number_of_days =365 - start_date+end_date  +1;
+            // }
+
+
+            /*alternatively we initialize each data*/
+
+            var plan_name = "熊本温泉旅行";
+            var members = "2";
+            var departure_place = "太郎の家";
+            var departure_address = "博多";
+            var departure_time = 8;
+            var end = "花子の家";
+            var end_address = "天神";
+            var num_of_members = "2";
+            var day_info = ["2016","8","07"];
+            var initialized_place =["熊本城","",""];
+            var initialized_address = ["〒860-0002 熊本県熊本市中央区本丸１−１","",""];
+            var initialized_span =["1","1","1"];
+            var initialized_cost =["2000","1000","1000"];
+            var pre_budget = 20000;    //former budget 
+
+            var start_date = 220;
+            var end_date = 221;
+
+            var car_type = "true";
+            var gas_price = 120;
+            var gas_efficiency = 10;
+
+            number_of_days = 2;
+
+
+            
+            function initialize() {
+                // insert value;
+                document.getElementsByName('plan_name')[0].value = plan_name;
+                document.getElementsByName('num_of_members')[0].value = members;
+                document.getElementsByName('budget')[0].value = pre_budget;
+                document.getElementsByName('departure_point')[0].value = departure_address;
+                document.getElementsByName('departure_time')[0].value = departure_time;
+                document.getElementsByName('end_point')[0].value = end_address;
+                document.getElementsByName('gas_price')[0].value = gas_price;
+                document.getElementsByName('efficiency')[0].value = gas_efficiency;
+                document.getElementsByName('hotel_place')[0].value = initialized_address[0];
+                document.getElementsByName('hotel_budget')[0].value = pre_budget;
+                document.getElementsByName('place')[0].value = initialized_place[0];
+                document.getElementsByName('departure_point_name')[0].value = departure_place;
+                document.getElementById('cost_number').innerHTML = pre_budget;
+                // get the ids of shedule
+                for (var i=0; i<number_of_days*24; i++){
+                    index_of_schedule[Math.floor(i/number_of_days) + (i%number_of_days)*24]=i;
+                }
+                alert("予定をドラッグして調整してください．「予約済み」のタブでは固定された予定を追加できます");
+                if(car_type ==='true'){
+                    document.route_option.car_type[1].checked = true;
+                }
+                else{
+                    document.route_option.car_type[0].checked = true;
+                }
+                var mapOptions = {
+                    center: new google.maps.LatLng(35.681382, 139.766084),
+                    zoom: 8,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    disableDefaultUI: true,
+                };
+                map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+                service = new google.maps.places.PlacesService(map);
+                geocoder = new google.maps.Geocoder();
+                directionsService = new google.maps.DirectionsService();
+                document.getElementById(departure_time +"clock").style.color = 'red';
+
+
+                addInitialMarkers(0);
+                // setTimeout(Recommend(),5000);
+                
+            }         
+        </script>
+        
+    </head>
+
+<body onload="initialize()">
+    <div id="header">
+        <div id="title">
+            <script>
+                document.write(plan_name);
+            </script>
+        </div>
+        <a class ="edit" rel="leanModal" href="#options">Options</a>
+    </div>
+    <div id= "options">
+        <form name ='route_option'>
+            <b>Title</b><hr>
+            <input type = "text" name="plan_name" value ="" size ="30px" placeholder = "旅行タイトルを入力してください">
+            <input type = "button" value = "更新" align ="right" onclick="editTitle();">
+            <br><br>
+            <b>Members</b><hr>
+            <input type = "number" name= "num_of_members" min="1" value="" style ="width: 30px" placeholder = "人数">人
+            <input type = "button" value = "更新" align ="right" onclick="display_cost()">
+            <br><br>
+            <b>Budget</b><hr>
+            <input type = "number" name= "budget" min="0" value=""  step = "1000"style ="width: 60px" placeholder = "予算">円/人
+            <input type = "button" value = "更新" align ="right" onclick="display_cost()">
+            <br><br>
+            <b>Departure Place</b><hr>
+            <input type = "text" name="departure_point_name" value ="" size ="30px" placeholder = "出発地の名前">
+            <br>
+            <input type = "text" name="departure_point" value ="" size ="30px" placeholder = "出発地の住所">
+            <br>
+            <input type = "number" name= "departure_time" min="0" max="24" value=""  style ="width: 40px">時出発
+            <input type = "button" value = "更新" align ="right" onclick="changeDeparturePlace()">
+            <br><br>
+            <b>End Place</b><hr>
+            <input type = "text" name="end_point" value ="" size ="30px" placeholder = "解散場所の住所">
+            <input type = "button" value = "更新" align ="right" onclick="changeEndPlace()">
+            <br><br>
+            <b>Route Options</b><hr>
+            <input type = "checkbox" name="Highway">高速道路を利用しない
+            <input type = "checkbox" name="Toll">有料道路を利用しない
+            <input type = "button" value = "更新" align="right" onclick="displayRoute()">
+            <br><br>
+            <b>Car Type</b><hr>
+            <input type = "radio" name="car_type" value = "%E8%BB%BD%E8%87%AA%E5%8B%95%E8%BB%8A%E7%AD%89">軽自動車
+            <input type = "radio" name="car_type" value ="%E6%99%AE%E9%80%9A%E8%BB%8A">普通車
+        </form>
+        <br>
+        <form name = "gas">
+            <b>Gas</b><hr>
+            ガソリン価格
+            <input type = "number" name= "gas_price" min="0" value="" step = "1" style ="width: 60px">円/L
+            燃費
+            <input type = "number" name= "efficiency" min="0" value="" step = "0.1" style ="width: 60px">km/L
+        </form>
+    </div>
+    <div id = 'main'>
+            <p  id = "main_tabs">
+                <a href="#header" class ='main_tab' id="tab_schedule"  onclick = ChangeMainTab('schedule')>Schedule</a>
+                <a href="#header" class = 'main_tab' id="tab_map" onclick = ChangeMainTab('map_canvas')>Map</a>
+            </p>
+
+            <table id="schedule">
+                <script>
+                document.write("<tr>");
+                document.write("<th><br></th>");
+                
+                for(var i=0; i<number_of_days; i++){
+                    var myD = new Date(Number(day_info[0]),Number(day_info[1])-1,Number(day_info[2])+i);
+                    document.write("<th>");
+                    document.write(myD.getMonth()+1);
+                    document.write("/");
+                    document.write(myD.getDate());
+                    document.write("</th>");
+                }
+                document.write("</tr>");
+                k=0;
+                for(var i=0; i<24; i++){
+                    document.write("<tr>");
+                    document.write("<td id='");
+                    document.write(i+1);
+                    document.write("clock' align='center' valign ='bottom'class = 'time'><sub>");
+                    document.write(i+1);
+                    document.write("時</sub></td>");
+                    for(var j=0; j<number_of_days; j++){
+                        document.write("<td id=");
+                        document.write(k);
+                        document.write(" class='dropbox' ondragover='f_dragover(event)' ondrop='f_drop(event)' style='display: table-cell;'></td>");
+                    
+                        k++;
+                    }
+                    document.write("</tr>");
+                }
+                </script>
+            </table>  
+
+            <div id="map_canvas"></div>
+    </div>
+    <div id = "inputbox">
+
+            <p id = "input_tabs">
+                <a href="#header" id="tab_recommend" class= 'tab'onclick = ChangeTab('recommend')>おすすめ</a>
+                <a href="#header"id="tab_pallet" class='tab' onclick = ChangeTab('pallet')>予定追加</a>
+                <a href="#header" id="tab_reserved" class = 'tab'onclick = ChangeTab('reserve')>予約済み</a>
+            </p>
+
+            <div id="pallet" class="input" style="display: none; position:relative; z-index:0;" ondragover="f_dragover(event)" ondrop="f_drop(event)">
+                <form name = "plan">                            
+                    <input size="20" type = "text" name="B" value="" placeholder="ex)熊本城" style="text-align:center; margin-top:10px; margin-left:5px;">に<br>
+                    <input type = "number" name= "C" min="1" max="24" value="1" style ="width: 40px; text-align:right; margin-left:5px;" >時間いて
+                    <input type = "number" name= "D" min="0" value="0" step = "1000" style ="width: 60px; text-align:right;">円使う<br><br>
+                    <input type = "text" name = "E" value="" placeholder="住所" style="text-align:center; margin-left:5px;">
+                    <input type="button" value="追加" onclick="addMarker()">
+                    <hr>
+                </form>
+            </div>
+            
+            <div id="reserve" class="input" style="display: none;">                 
+                <div align = center>(イベント)</div>
+                <hr>
+                <form name = "reserved_plan">                           
+                    名前
+                    <input size="20" type = "text" name="name" value=""><br>
+                    期間  
+                    <script>
+                        document.write("<input type = 'number' name= 'start_date' min='1' max=");
+                        document.write(number_of_days);
+                        document.write(" value='1' style ='width: 25px'>日目");
+                    </script>
+                    <input type = "number" name= "start" min="0" max="24" value="0" style ="width: 40px">時〜
+                    <script>
+                        document.write("<input type = 'number' name= 'end_date' min='1' max=");
+                        document.write(number_of_days);
+                        document.write(" value='1' style ='width: 25px'>日目");
+                    </script>
+                    <input type = "number" name= "end" min="0" max="24" value="0" style ="width: 40px">時
+                    <br>    
+                    金額
+                    <input type = "number" name= "cost" min="0" value="0" step = "1000" style ="width: 60px">円/人
+                    <br>
+                    住所<input type = "text" name="address" value="">
+                    <input type="button" value="追加" onclick="addMarkerOfReservedSchedule()">
+                </form>
+                <hr>
+                <hr>
+                <div align = center>(交通)</div>
+                <hr>
+                <form name = "reserved_transfer" >
+                    <input type = "radio" name="name" value="高速バス" checked="checked">高速バス   
+                    <input type = "radio" name="name" value="飛行機">飛行機
+                    <input type = "radio" name="name" value="フェリー">フェリー
+                    <input type = "radio" name="name" value="列車">列車<br>
+            
+                    <input size="15" type = "text" name="departure_place" value="">発
+                    <script>
+                        document.write("<input type = 'number' name= 'departure_date' min='1' max=");
+                        document.write(number_of_days);
+                        document.write(" value='1' style ='width: 25px'>日目");
+                    </script>
+                     
+                    <input type = "number" name= "departure_time" min="0" max="24" value="0" style ="width: 40px">時〜
+                    <br>
+                    <input size="15" type = "text" name="arrival_place" value="">着
+                    <script>
+                        document.write("<input type = 'number' name= 'arrival_date' min='1' max=");
+                        document.write(number_of_days);
+                        document.write(" value='1' style ='width: 25px'>日目");
+                    </script>
+                    <input type = "number" name= "arrival_time" min="0" max="24" value="0" style ="width: 40px">時
+                    <br>
+                    金額
+                    <input type = "number" name= "cost" min="0" value="0" step = "1000" style ="width: 60px">円/人
+                    <input type="button" value="追加" onclick="addMarkerOfTransfer()">
+
+                </form>
+                <hr>
+                <a class ="hotel" rel="leanModal" href="#reserved_hotel" onclick="reservationWindow();">宿予約</a>
+                <div id="reserved_hotel">
+                    <form name ="about_hotel">
+                        <b>Hotel</b><hr>
+                        <a href="http://webservice.rakuten.co.jp/" target="_blank"><img src="http://webservice.rakuten.co.jp/img/credit/200709/credit_4936.gif" border="0" alt="楽天ウェブサービスセンター" title="楽天ウェブサービスセンター" width="49" height="36" style="position:absolute; right:10%; top:100px;" /></a>
+                        <input size="15" type = "text" name="hotel_place" style="text-align:center" value="">付近の
+                        <br>
+                        <script>
+                            if(number_of_days>1){
+                                document.write("<input type = 'number' name= 'stay_date' min='1' max=");
+                                document.write(number_of_days-1);
+                                document.write(" value='1' style ='width: 25px'>日目に泊まる");
+                            }
+                        </script>
+                        <br>1部屋
+                        <input type = "number" name= "hotel_budget" min="0" value=""  step = "1000"style ="width: 70px; text-align:right;" placeholder = "予算上限">円の宿
+                        <input type="button" value="検索" onclick="reservationWindow()">
+                    </form>
+                    <hr>
+                    <div id="hotel_plans" class="box_srcollbar">
+                    </div>
+                </div>
+                <hr>
+
+            </div>
+            <div id="recommend" class = "input" style="display: block;"ondragover="f_dragover(event)" ondrop="f_drop(event)">
+                <form name = "recommend" style="margin-top:10px; margin-left:5px;">
+                    <input size="15" type = "text" name="place" value="" style="text-align:center;">付近のおすすめ
+                    <br>
+                    検索範囲
+                    <input type = "radio" name="radius" value="25000" checked="checked">広域  
+                    <input type = "radio" name="radius" value="10000">中域
+                    <input type = "radio" name="radius" value="5000">狭域
+                    <br>
+                    観光地<input type = "radio" name="type" value="buildings"checked="checked">
+                    レストラン<input type = "radio" name="type" value="restaurant" >
+                    <input type="button" value="検索" onclick="Recommend()"><br>
+                    <small>※マーカーをクリックするとHPに飛びます</small>
+                    <input type="button" value="クリア" onclick="clearRecommendedMarker()">
+                </form>
+                <hr>
+            </div>
+
+            <div id="total_cost">残り<span id= "cost_number"> </span>円/人</div>
+            <input class = 'cost_button'id="display_cost_button" type="button" value="詳細を表示" onclick="displayDetailOfCost()" style="display:block">
+            <input class = 'cost_button'id="hide_cost_button" type="button" value="詳細を非表示" onclick="hideDetailOfCost()" style="display:none">
+            <div id='detail_of_cost' style="display: none;">
+                (旅費)
+                <div id= "travel_cost">0円/人</div>
+                <br>
+                (ガソリン料金)<br>
+                <div id="total_distance">総走行距離 0m</div> 
+                <div id= "gas_cost">ガソリン代   0円</div>
+                <br>
+                (高速料金)
+                <div id= "displayIC"></div>
+                ※<a href="http://kosoku.jp/" style="text-decoration:none; color:green;font-weight: bold;" target = '_blank'>高速.jp</a> より
+                
+                
+            </div>
+    </div>
+    </body>
+</html>
+

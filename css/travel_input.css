@@ -1,0 +1,282 @@
+body {  
+    position: relative;
+    width:100%;
+    height:92%;
+    font-size :50px;
+    font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',san-serif;
+    margin:0;
+
+}
+
+input{
+    height:60px;
+    font-size: 40px;
+}
+
+input.button{
+    background-color:rgb(201,255,188);
+    color:gray;
+    border:solid 3px green;
+    -moz-border-radius: 100px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+    -webkit-border-radius: 100px;/*角丸指定*/
+    border-radius: 100px;/*角丸指定*/
+
+}
+input.button:hover{
+    color:white;
+    background-color: green;
+}
+#efficiency > input{
+    height:45px;
+    font-size: 30px;
+}
+
+.destination > input{
+    height:300%;
+    font-size: 20px;
+}
+
+
+#destinations {
+    position: absolute;
+    top:35%;
+    left:10%;
+    font-size: 20px;
+    text-align: left;
+    height: 50%;    
+    width: 100%;
+}
+
+.slide{
+    width:100%;
+    height:100%;
+    text-align: center; 
+    background-color:rgb(235,255,230);
+    position: relative;
+    
+}
+#first_page{
+    position: relative;
+    top:10%;
+}
+#title_page{
+    position: relative;
+    top:20%;
+}
+
+#members_page{
+    position: relative;
+    top:20%;
+}
+#days_page{
+    position: relative;
+    height: 100%;
+
+}
+#budget_page{
+    position: relative;
+    top:20%;
+}
+#departure_page{
+    position: relative;
+    height:100%;
+    
+}
+
+#departure_page > input{
+    height:25px;
+    width: 50%;
+    font-size: 20px;
+}
+
+#end_page{
+    position: relative;
+    height:100%;
+    
+}
+
+#end_page > input{
+    height:25px;
+    width: 50%;
+    font-size: 20px;
+}
+#departure_time_page{
+    position: relative;
+    top:20%;
+    height:100%;
+    
+}
+#car_type_page{
+    position: relative;
+    height: 100%;
+}
+#light_car{
+    position: absolute;
+    height:100%;
+    width: 50%;
+
+}
+#normal_car{
+    position: absolute;
+    left:50%;
+    height:100%;
+    width: 50%;
+}
+#efficiency{
+    position: absolute;
+    bottom: 20%;
+    width:100%;
+    font-size: 40px;
+}
+#gas_page{
+    position: relative;
+    height:100%;
+}
+a.link{
+    margin: 10px;
+    text-decoration: none;
+    position: relative;
+    top: 40%;
+    color:rgb(100,100,100);
+    background-color:rgb(235,255,230);
+    border:3px solid green;
+    padding:10px 10px;
+    border-radius:5px;
+    box-shadow:0px 0px 10px #c3e1ff;
+    cursor:pointer;
+}
+
+a.link:hover {
+    color:white;
+    background-color:green;
+    text-shadow:0px 0px 3px #ffffff;
+}
+
+.bx-wrapper{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+.frameLine {
+    border: solid 1px #CCC;
+    padding: 20px;
+}
+
+
+.bx-wrapper .bx-pager {
+    text-align: center;
+        margin-top: 5px;
+}
+.bx-wrapper .bx-pager .bx-pager-item {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+}
+.bx-wrapper .bx-controls-direction a {
+    position: absolute;
+    z-index: 9999;
+}
+
+.bx-pager a {
+    background: gray;
+    text-indent: -9999px;/*数字表示をブラウザ外に押しやる*/
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    -moz-border-radius: 5px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+    -webkit-border-radius: 5px;/*角丸指定*/
+    border-radius: 5px;/*角丸指定*/
+}
+.bx-pager a:hover,
+.bx-pager a:active{
+    background: black;
+}
+.bx-prev {
+    left: 40px;
+}
+.bx-next {
+    right: 40px;
+}
+.bx-controls-direction a {
+    position: absolute;
+    top: 45%;
+    margin-top: 0;
+    width: 30px;
+    height: 30px;
+    z-index: 9999;
+    color: gray;
+    text-decoration: none;
+    font-size: 50px;
+    font-weight: bold;
+    -moz-text-shadow: 1px 1px 2px black;
+    -webkit-text-shadow: 1px 1px 2px black;
+    text-shadow: 1px 1px 2px black;
+}
+.disabled{
+    display: none;
+}
+.ui-datepicker-inline {
+    margin: 0 auto
+
+}
+#datepicker1{
+ margin:10px;
+ width:50%;
+ font-size: 50%;
+ position:absolute;
+ 
+}
+#datepicker2{
+ margin:10px;
+ width:50%;
+ font-size: 50%;
+ position:absolute;
+ left:50%;
+ 
+}
+
+#departure_map_canvas{
+                height: 60%;
+                width: 50%;
+                margin:0 auto;
+                -moz-border-radius: 15px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+                -webkit-border-radius: 15px;/*角丸指定*/
+                border-radius: 15px;/*角丸指定*/
+                border:1px black;
+            }
+
+#end_map_canvas{
+                height: 60%;
+                width: 50%;
+                margin:0 auto;
+                -moz-border-radius: 15px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+                -webkit-border-radius: 15px;/*角丸指定*/
+                border-radius: 15px;/*角丸指定*/
+                border:1px black;
+            }
+            
+#destination_map_canvas{
+                height: 50%;
+                width: 40%;
+                margin:0 auto;
+                -moz-border-radius: 15px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+                -webkit-border-radius: 15px;/*角丸指定*/
+                border-radius: 15px;/*角丸指定*/
+                border:1px black;
+                position:absolute;
+                left:50%;
+                top:35%;
+            }
+
+
+@media only screen and (max-width: 320px) {
+     
+    body{
+        font-size:14px;
+    }
+ 
+} /* デバイスの横幅が320px以下の場合 */
+
+
+

@@ -1,0 +1,489 @@
+body {  
+    font-size :13px;
+    font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',san-serif;
+    margin:0;
+    background-color:rgb(235,255,230);
+
+}
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+#header{
+    background: -webkit-gradient(linear,right top,right bottom,from(rgb(0,170,0)), to(rgb(0,115,0)));
+    background:    -moz-linear-gradient(top,rgb(0,170,0), rgb(0,115,0)); 
+    background:      -o-linear-gradient(top, rgb(0,170,0), rgb(0,115,0));       /* Opera 11.10-12.10 */
+    background:         linear-gradient(to bottom, rgb(0,170,0), rgb(0,115,0)); /* IE10, Firefox 16.0+, Opera 12.50+ */
+
+    height:60px;
+    position: relative;
+}
+
+a.edit{
+    text-decoration:none;
+    
+    font-size: 17px;
+    font-weight: bolder;
+    position:absolute;
+    bottom:20%;
+    right:5%;
+    color:rgb(100,100,100);
+    background-color:rgb(235,255,230);
+    border:3px solid green;
+    padding:2px 2px;
+    border-radius:5px;
+    box-shadow:0px 0px 10px #c3e1ff;
+    cursor:pointer;
+}
+a.edit:hover{
+    color:white;
+    background-color:rgb(0,170,0);
+    border:3px solid rgb(0,115,0);
+    text-shadow:0px 0px 3px #ffffff;
+}
+
+#title{
+color:white;
+font-size: 40px;
+font-weight: bolder;
+text-align: center;
+
+}
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+#main {
+    width:80%;
+    position:relative;
+}
+#schedule{
+    background-color:rgba(250,255,245,0.5);
+    width: 96.7%;
+    margin:20px;
+    height:1000px;
+    margin-top: 0px;
+    position:absolute;
+    z-index: 1;
+}
+
+tr{
+    height:40px;
+    position: relative;
+}
+
+.time{
+    width:20px;
+    height:42px;
+    position:relative;
+    top:20px;
+}
+
+#map_canvas{
+    height: 1047px;
+    width: 96.7%;
+    margin:20px;
+    margin-top: 0px;
+    position:absolute;
+    z-index: 0;
+}
+#main_tabs{
+    margin:0;
+    margin-left:20px;
+    margin-bottom: -5px;
+    font-size: 20px;
+}
+
+a.main_tab{
+    text-decoration:none;
+    color:gray;
+    font-weight: bolder;
+}
+
+a.main_tab:hover{
+    color:#4E4E4E;
+}
+
+#tab_schedule{  
+background-color:rgb(255,145,97);
+
+
+}
+
+#tab_map{   
+background-color:rgb(158,211,255);
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+#inputbox{
+width:20%;
+position:absolute; right:0%; top:80px;
+}
+
+
+#tab_pallet{    
+background-color:rgb(255,255,240);
+text-decoration:none;
+-webkit-border-top-left-radius: 5px;  
+-webkit-border-top-right-radius: 5px;  
+-moz-border-radius-topleft: 5px;  
+-moz-border-radius-topright: 5px;  
+border-radius:5px;
+border:2px solid rgb(141,216,0); 
+}
+
+
+#tab_reserved{  
+background-color:rgb(240,255,255);
+text-decoration:none;
+-webkit-border-top-left-radius: 5px;  
+-webkit-border-top-right-radius: 5px;  
+-moz-border-radius-topleft: 5px;  
+-moz-border-radius-topright: 5px; 
+border-radius:5px;
+border:2px solid rgb(0,215,215); 
+
+}
+
+
+#tab_recommend{ 
+background-color:rgb(255,240,255);
+text-decoration:none;
+-webkit-border-top-left-radius: 5px;  
+-webkit-border-top-right-radius: 5px;  
+-moz-border-radius-topleft: 5px;  
+-moz-border-radius-topright: 5px;
+border-radius:5px;  
+border:2px solid rgb(252,0,252); 
+}
+
+a.tab{
+    color:gray;
+    font-weight: bolder;
+    padding:5px 5px;
+
+}
+a.tab:hover{
+    color:black;
+
+}
+
+.tabbox{
+width:20%;
+position:absolute; right:0%; top:40px;
+}
+
+.input{ 
+width:300px; height:775px; margin:0px;
+position:relative;
+}
+
+#input_tabs{
+    margin:0;
+    margin-bottom:-2px;
+    font-size:13px;
+}
+
+#pallet {
+background-color:rgb(255,255,240);
+padding:2px 2px;
+border:2px solid rgb(141,216,0);
+border-top-width: 0px; 
+}
+
+#reserve {  
+background-color:rgb(240,255,255);
+padding:2px 2px;
+border:2px solid rgb(0,215,215); 
+border-top-width: 0px; 
+}   
+
+#recommend{
+background-color:rgb(255,240,255);
+padding:2px 2px;
+border:2px solid rgb(252,0,252); 
+border-top-width: 0px; 
+}
+
+table{
+    border-collapse: collapse;
+}
+
+#total_cost{
+    position:absolute; bottom:-40px;
+}
+            
+
+
+.dropbox {
+    border: solid 1px;
+    padding: 0.5em;
+    width:280px;
+    height:42px;
+    margin:0px;
+    padding:0px;
+}
+
+.delete{
+position:relative;
+}
+
+.a {
+    width:100%;
+    margin:0px;
+    background-color:rgba(255,0,0,0.5);
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -khtml-user-drag: element;
+    border:1px solid rgba(150,0,0,0.5); 
+
+}
+.b {
+    width:100%; height:40px; margin:0px; background-color:rgba(245,255,100,0.5);
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -khtml-user-drag: element;
+
+}
+
+.c {
+width:100%; height:40px; margin:0px; background-color:rgba(110,110,255,0.5);
+border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+-khtml-user-drag: element;
+}
+
+.d {
+width:100%; height:40px; margin:0px; background-color:rgba(0,175,0,0.5);
+border-radius:5px;
+-webkit-border-radius:5px;
+-moz-border-radius:5px;
+-khtml-user-drag: element;
+border:1px solid rgba(0,120,0,0.5); 
+}
+.end {
+    width:100%; height:40px; margin:0px; background-color:rgba(14, 0, 149, 0.5);
+    text-align:center;
+    color: white;
+    font-size: 18px;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -khtml-user-drag: element;
+    border:2px solid rgba(0, 2, 209, 0.5);
+}
+
+.gm-style-iw {
+     overflow: hidden ! important;
+}
+.gm-style-iw div {
+     overflow: hidden ! important;
+}
+
+
+#lean_overlay{
+     position: fixed; z-index:100; 
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      background: #000;
+      display: none;
+}
+#options{
+      background: none repeat scroll 0 0 #FFFFFF;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+      display: none;
+      padding: 30px;
+      width: 780px;
+ }
+ #reserved_hotel{
+      background: none repeat scroll 0 0 #FFFFFF;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+      display: none;
+      padding: 30px;
+      width: 780px;
+      text-align: center;
+ }
+#total_cost{
+    position: relative;
+    bottom: 0;
+    
+    text-align: center;
+    margin: 0;
+
+}
+#cost_number{
+    color:rgb(15, 96, 145);
+    font-size: 35px;
+    font-weight: bold;
+}
+.cost_button{
+    float: right;
+}
+#detail_of_cost{
+    position:relative;
+    left:5%;
+    top:30px;
+}
+
+
+a.hotel{
+    text-decoration:none;
+    font-size: 17px;
+    font-weight: bolder;
+    margin: 0  auto;
+    position:relative;
+    left:40%;
+    color:rgb(100,100,100);
+    background-color:rgb(240,255,255);
+    border:3px solid rgb(0,215,215);
+    padding:2px 2px;
+    border-radius:5px;
+    box-shadow:0px 0px 10px #c3e1ff;
+    cursor:pointer;
+}
+a.hotel:hover{
+    color:white;
+    background-color:rgb(0,215,215);
+    border:3px solid rgb(0,215,215);
+    text-shadow:0px 0px 3px #ffffff;
+}
+.hotels{
+    margin:8px;
+    background-color: rgba(179, 66, 74,0.5);
+    border:1px solid rgb(179, 66, 74);
+    -webkit-border-top-left-radius: 60%;  
+    -webkit-border-top-right-radius: 60%;  
+    -moz-border-radius-topleft: 60%;  
+    -moz-border-radius-topright: 60%;  
+    border-radius:5px;
+
+}
+
+.box_srcollbar {
+    overflow:auto;
+    width:100%;
+    height:500px;
+    padding:5px;
+    border:3px solid rgb(179, 66, 74);
+}
+
+.bx-wrapper{
+    width:50%;
+    height:40px;
+    position:relative;
+    left:25%;
+    -moz-border-radius: 5px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+    -webkit-border-radius: 5px;/*角丸指定*/
+    border-radius: 5px;/*角丸指定*/
+}
+.frameLine {
+    border: solid 1px #CCC;
+    padding: 20px;
+}
+
+
+.bx-wrapper .bx-pager {
+    text-align: center;
+        margin-top: 5px;
+}
+.bx-wrapper .bx-pager .bx-pager-item {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+}
+.bx-wrapper .bx-controls-direction a {
+    position: absolute;
+    z-index: 9999;
+}
+
+.bx-pager a {
+    background: gray;
+    text-indent: -9999px;/*数字表示をブラウザ外に押しやる*/
+    display: block;
+    width: 5px;
+    height: 5px;
+    margin: 0 5px;
+    -moz-border-radius: 5px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+    -webkit-border-radius: 5px;/*角丸指定*/
+    border-radius: 5px;/*角丸指定*/
+}
+.bx-pager a:hover,
+.bx-pager a:active{
+    background: black;
+}
+.bx-prev {
+    left: 5px;
+}
+.bx-next {
+    right: 5px;
+}
+.bx-controls-direction a {
+    position: absolute;
+    top: 33%;
+    margin-top: 0;
+    width: 5px;
+    height: 5px;
+    z-index: 9999;
+    color: gray;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    -moz-text-shadow: 1px 1px 2px black;
+    -webkit-text-shadow: 1px 1px 2px black;
+    text-shadow: 1px 1px 2px black;
+}
+
+.slide{
+    width:50%;
+    height:50px;
+    text-align: center; 
+    background-color: rgba(245,255,100,0.5);
+    position: relative;
+    left:25%;
+}
+.hotels>a{
+    color:rgb(128, 0, 0);
+    font-size: 17px;
+    font-weight: bolder;
+}
+.hotels>a:hover{
+    color:gray;
+}
+.hotels>img{
+    height: 70%;
+    -moz-border-radius: 5px;/*角丸指定 四隅を丸くすることで10pxの●に*/
+    -webkit-border-radius: 5px;/*角丸指定*/
+    border-radius: 5px;/*角丸指定*/
+
+}
+
+.detail_of_hotel>a{
+    text-decoration:none;
+                font-weight: bolder;
+                font-size: 10px;
+                margin: 0  auto;
+                position:relative;
+                right: -9%;
+                color:rgb(100,100,100);
+                background-color:#FFF5D7;
+                border:3px solid rgb(245, 182, 5);
+                padding:2px 2px;
+                border-radius:5px;
+                box-shadow:0px 0px 10px #c3e1ff;
+                cursor:pointer;
+
+}
+
+.detail_of_hotel>a:hover{
+    color:black;
+                background-color:rgb(245, 182, 5);
+                border:3px solid rgb(245, 182, 5);
+                text-shadow:0px 0px 3px #ffffff;
+}
+.detail_of_hotel{
+    position: relative;
+    left:-7%;
+}
